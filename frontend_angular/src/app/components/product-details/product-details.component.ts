@@ -1,32 +1,33 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product.model';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.css'],
-  standalone: true,
-  imports: [CommonModule, RouterModule, HttpClientModule]
+  standalone: false
 })
 export class ProductDetailsComponent implements OnInit {
   product: Product | null = null;
   loading = true;
   error = false;
-
+  categories: string[] = ['Electronics', 'Clothing', 'Footwear'];
+  selectedCategory: string = '';
+  
   constructor(
     private route: ActivatedRoute,
-    private productService: ProductService
+    private productService: ProductService,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      const productId = Number(params.get('id'));
-      if (productId) {
-        this.loadProduct(productId);
+      const id = params.get('id');
+      if (id) {
+        this.loadProduct(+id);
       }
     });
   }
@@ -35,10 +36,10 @@ export class ProductDetailsComponent implements OnInit {
     this.loading = true;
     this.error = false;
     
-    this.productService.getProductById(id).subscribe({
+    this.productService.getProduct(id).subscribe({
       next: (product) => {
         this.product = product;
-        console.log('Product loaded:', product);
+        this.selectedCategory = product.category;
         this.loading = false;
       },
       error: (err) => {
@@ -48,10 +49,18 @@ export class ProductDetailsComponent implements OnInit {
       }
     });
   }
+
+  handleImageError(event: Event): void {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.src = 'https://via.placeholder.com/300x200?text=Product+Image+Not+Available';
+  }
   
-  handleImageError(event: any): void {
-    console.error('Image failed to load:', event.target.src);
-    // Fallback to a placeholder image
-    event.target.src = 'https://via.placeholder.com/300x200?text=Image+Not+Available';
+  onCategoryChange(event: Event): void {
+    const select = event.target as HTMLSelectElement;
+    this.selectedCategory = select.value;
+    
+    if (this.product) {
+      this.product.category = this.selectedCategory;
+    }
   }
 }

@@ -1,86 +1,56 @@
 
-<div class="page-header">
-  <h2>Product Listing</h2>
-  <p>Discover our amazing products with great deals</p>
+<h1 class="page-title">Our Products</h1>
+
+<div class="filter-panel">
+  <div class="filter-group">
+    <input [(ngModel)]="search" placeholder="Search by name" class="filter-input" />
+    <select [(ngModel)]="category" class="filter-input category-select">
+      <option value="">All Categories</option>
+      <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <input [(ngModel)]="minPrice" type="number" placeholder="Min Price" class="filter-input" />
+    <input [(ngModel)]="maxPrice" type="number" placeholder="Max Price" class="filter-input" />
+  </div>
+  <div class="filter-actions">
+    <button (click)="loadProducts()" class="btn-primary">Search</button>
+    <button (click)="resetFilters()" class="btn-secondary">Reset</button>
+  </div>
 </div>
 
-<div class="filter-section">
-  <div class="filter-header">
-    <h3>Filter Products</h3>
-    <button class="btn-reset" (click)="resetFilters()">Clear All</button>
+<div *ngIf="products.length === 0" class="no-products">
+  <p>No products found matching your criteria.</p>
+</div>
+
+<div class="product-grid">
+  <div *ngFor="let p of products" class="product-card">
+    <div class="product-image">
+      <img [src]="p.image || 'https://via.placeholder.com/300x200?text=Product+Image'" 
+           [alt]="p.name" 
+           (error)="handleImageError($event)">
+    </div>
+    <div class="product-info">
+      <h3 class="product-name">{{ p.name }}</h3>
+      <span class="product-category">{{ p.category }}</span>
+      <div class="product-price">₹{{ p.price }}</div>
+      <a [routerLink]="['/product', p.id]" class="view-details">View Details</a>
+    </div>
   </div>
+</div>
+
+<div class="pagination">
+  <button (click)="prevPage()" [disabled]="page <= 1" class="btn-secondary">Previous</button>
+  <span class="page-info">Page {{ page }} of {{ Math.ceil(total / pageSize) }}</span>
+  <button (click)="nextPage()" [disabled]="page * pageSize >= total" class="btn-secondary">Next</button>
   
-  <div class="filter-body">
-    <div class="search-box">
-      <input [(ngModel)]="search" placeholder="Search products..." />
-      <button class="search-btn" (click)="loadProducts()">
-        <i class="fas fa-search"></i>
-      </button>
-    </div>
-    
-    <div class="filter-group">
-      <label>Category</label>
-      <select [(ngModel)]="category">
-        <option value="">All Categories</option>
-        <option value="Electronics">Electronics</option>
-        <option value="Clothing">Clothing</option>
-        <option value="Footwear">Footwear</option>
-      </select>
-    </div>
-    
-    <div class="filter-group price-filter">
-      <label>Price Range</label>
-      <div class="price-inputs">
-        <input [(ngModel)]="minPrice" type="number" placeholder="Min" />
-        <span class="price-separator">-</span>
-        <input [(ngModel)]="maxPrice" type="number" placeholder="Max" />
-      </div>
-    </div>
-    
-    <button class="btn-primary apply-filter" (click)="loadProducts()">Apply Filters</button>
-  </div>
-</div>
-
-<div class="products-container">
-  <div class="no-products" *ngIf="products.length === 0">
-    <i class="fas fa-box-open"></i>
-    <p>No products found matching your criteria</p>
-    <button class="btn-secondary" (click)="resetFilters()">Clear Filters</button>
-  </div>
-  
-  <div class="product-grid" *ngIf="products.length > 0">
-    <div class="product-card" *ngFor="let p of products">
-      <div class="product-image">
-        <img [src]="p.image" alt="{{ p.name }}" (error)="handleImageError($event)">
-      </div>
-      <div class="product-info">
-        <h3 class="product-name">{{ p.name }}</h3>
-        <p class="product-category">{{ p.category }}</p>
-        <div class="product-price">₹{{ p.price }}</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="pagination-container" *ngIf="products.length > 0">
-  <div class="pagination">
-    <button class="pagination-btn" (click)="prevPage()" [disabled]="page <= 1">
-      <i class="fas fa-chevron-left"></i> Previous
-    </button>
-    <div class="pagination-info">
-      Page {{ page }} of {{ Math.ceil(total / pageSize) }}
-    </div>
-    <div class="page-size-selector">
-      <label for="pageSize">Items per page:</label>
-      <select id="pageSize" [(ngModel)]="pageSize" (change)="changePageSize()">
-        <option [value]="4">4</option>
-        <option [value]="8">8</option>
-        <option [value]="12">12</option>
-        <option [value]="16">16</option>
-      </select>
-    </div>
-    <button class="pagination-btn" (click)="nextPage()" [disabled]="page * pageSize >= total">
-      Next <i class="fas fa-chevron-right"></i>
-    </button>
+  <div class="page-size-selector">
+    <label for="pageSize">page size</label>
+    <select id="pageSize" [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+      <option [value]="5">5</option>
+      <option [value]="10">10</option>
+      <option [value]="20">20</option>
+      <option [value]="50">50</option>
+    </select>
   </div>
 </div>

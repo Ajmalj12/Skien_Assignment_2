@@ -10,15 +10,15 @@ export class ProductService {
 
   constructor(private http: HttpClient) {}
 
-  getProducts(filters: any): Observable<{ total: number; products: Product[] }> {
+  getProducts(filters: any): Observable<{ total: number; products: any[] }> {
     let params = new HttpParams();
     for (let key in filters) {
       if (filters[key]) params = params.set(key, filters[key]);
     }
-    return this.http.get<{ total: number; products: Product[] }>(this.apiUrl, { params });
+    return this.http.get<{ total: number; products: any[] }>(this.apiUrl, { params });
   }
-  
-  getProductById(id: number): Observable<Product> {
+
+  getProduct(id: number): Observable<Product> {
     return this.http.get<Product>(`${this.apiUrl}/${id}`);
   }
 }

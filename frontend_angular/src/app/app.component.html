@@ -1,16 +1,18 @@
 
-<header class="main-header">
+<header class="app-header">
   <div class="container">
-    <div class="header-content">
-      <div class="logo">
-        <span>ShopSmart</span>
-      </div>
+    <div class="logo">
+      <a routerLink="/">
+        <i class="fas fa-shopping-bag"></i>
+        <span>E-Shop</span>
+      </a>
     </div>
+    
+    
   </div>
 </header>
 
-<main class="main-content">
-  <div class="container">
-    <router-outlet></router-outlet>
-  </div>
+<main class="container main-content">
+  <router-outlet></router-outlet>
 </main>
+

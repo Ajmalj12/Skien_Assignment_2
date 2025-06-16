@@ -1,73 +1,33 @@
 <div class="product-details-container">
-  <div class="loading-spinner" *ngIf="loading">
-    <i class="fas fa-spinner fa-spin"></i>
+  <div *ngIf="loading" class="loading">
     <p>Loading product details...</p>
   </div>
 
-  <div class="error-message" *ngIf="error">
-    <i class="fas fa-exclamation-circle"></i>
-    <p>Sorry, we couldn't load the product details. Please try again later.</p>
-    <button class="btn-primary" routerLink="/">Back to Products</button>
+  <div *ngIf="error" class="error">
+    <p>Error loading product. Please try again later.</p>
+    <button routerLink="/">Back to Products</button>
   </div>
 
-  <div class="product-details" *ngIf="product && !loading && !error">
-    <div class="back-link">
-      <a routerLink="/"><i class="fas fa-arrow-left"></i> Back to Products</a>
+  <div *ngIf="product && !loading && !error" class="product-content">
+    <div class="product-image">
+      <img [src]="product.image" [alt]="product.name" (error)="handleImageError($event)">
     </div>
-
-    <div class="product-content">
-      <div class="product-image-container">
-        <img [src]="product.image" [alt]="product.name" class="product-image" (error)="handleImageError($event)">
+    
+    <div class="product-info">
+      <h1>{{ product.name }}</h1>
+      <div class="category-container">
+        <label for="category">Category:</label>
+        
       </div>
-
-      <div class="product-info">
-        <h1 class="product-name">{{ product.name }}</h1>
-        <div class="product-meta">
-          <span class="product-category">{{ product.category }}</span>
-          <span class="product-id">Product ID: {{ product.id }}</span>
-        </div>
-
-        <div class="product-price">₹{{ product.price }}</div>
-
-        <div class="product-description">
-          <h3>Description</h3>
-          <p>{{ product.description }}</p>
-        </div>
-
-        <div class="product-actions">
-          <div class="quantity-selector">
-            <button class="quantity-btn">-</button>
-            <input type="number" min="1" value="1" class="quantity-input">
-            <button class="quantity-btn">+</button>
-          </div>
-          <button class="btn-primary add-to-cart-btn">
-            <i class="fas fa-shopping-cart"></i> Add to Cart
-          </button>
-          <button class="btn-secondary wishlist-btn">
-            <i class="far fa-heart"></i> Add to Wishlist
-          </button>
-        </div>
-
-        <div class="product-delivery">
-          <div class="delivery-info">
-            <i class="fas fa-truck"></i>
-            <span>Free delivery available</span>
-          </div>
-          <div class="delivery-info">
-            <i class="fas fa-undo"></i>
-            <span>30-day return policy</span>
-          </div>
-          <div class="delivery-info">
-            <i class="fas fa-shield-alt"></i>
-            <span>1 year warranty</span>
-          </div>
-        </div>
+      <p class="price">₹{{ product.price }}</p>
+      <div class="description">
+        <h3>Description</h3>
+        <p>{{ product.description }}</p>
       </div>
-    </div>
-
-    <div class="related-products">
-      <h2>You might also like</h2>
-      <p>This section would contain related products based on the current product category.</p>
+      <div class="actions">
+       
+        <button class="btn-secondary" routerLink="/">Back to Products</button>
+      </div>
     </div>
   </div>
 </div>
