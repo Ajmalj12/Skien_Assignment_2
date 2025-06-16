@@ -9,15 +9,14 @@ import { ProductListComponent } from './components/product-list/product-list.com
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 
 @NgModule({
-  declarations: [
-    ProductListComponent,
-    ProductDetailsComponent
-  ],
+  declarations: [],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+    ProductListComponent,
+    ProductDetailsComponent
   ],
   providers: [],
   bootstrap: []

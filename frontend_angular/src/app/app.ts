@@ -13,8 +13,7 @@ import { ProductDetailsComponent } from './components/product-details/product-de
     CommonModule,
     FormsModule,
     HttpClientModule,
-    ProductListComponent,
-    ProductDetailsComponent,
+    
     RouterModule
   ],
   template: `
