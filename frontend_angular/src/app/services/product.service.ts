@@ -6,7 +6,7 @@ import { Product } from '../models/product.model';
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
-  private apiUrl = 'http://localhost:3000/api/products';
+  private apiUrl = 'https://skien-assignment-2.onrender.com/api/products';
 
   constructor(private http: HttpClient) {}
 
