@@ -116,14 +116,4 @@ Make sure CORS is enabled in your backend.
 
 ---
 
-## ✅ Example `products.js` Import (Node.js)
 
-```js
-// index.js or server.js
-const products = require('./products');
-app.get('/products', (req, res) => {
-  res.json(products);
-});
-```
-
----
