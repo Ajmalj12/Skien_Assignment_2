@@ -109,7 +109,7 @@ Make sure you have the following installed:
 In your Angular service (e.g., `product.service.ts`), fetch products from:
 
 ```ts
-http://localhost:4000/products
+http://localhost:4000/api/products
 ```
 
 Make sure CORS is enabled in your backend.
