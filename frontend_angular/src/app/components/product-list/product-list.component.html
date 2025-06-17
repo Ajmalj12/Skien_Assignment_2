@@ -3,15 +3,15 @@
 
 <div class="filter-panel">
   <div class="filter-group">
-    <input [(ngModel)]="search" placeholder="Search by name" class="filter-input" />
-    <select [(ngModel)]="category" class="filter-input category-select">
+    <input [(ngModel)]="search" placeholder="Search by name" class="filter-input" (input)="loadProducts()" />
+    <select [(ngModel)]="category" class="filter-input category-select" (change)="loadProducts()">
       <option value="">All Categories</option>
       <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
     </select>
   </div>
   <div class="filter-group">
-    <input [(ngModel)]="minPrice" type="number" placeholder="Min Price" class="filter-input" />
-    <input [(ngModel)]="maxPrice" type="number" placeholder="Max Price" class="filter-input" />
+    <input [(ngModel)]="minPrice" type="number" placeholder="Min Price" class="filter-input" (keyup.enter)="loadProducts()" />
+    <input [(ngModel)]="maxPrice" type="number" placeholder="Max Price" class="filter-input" (keyup.enter)="loadProducts()" />
   </div>
   <div class="filter-actions">
     <button (click)="loadProducts()" class="btn-primary">Search</button>
